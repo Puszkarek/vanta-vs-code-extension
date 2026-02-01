@@ -4,7 +4,7 @@ import { createNew } from './commands/create-new';
 import { disposePlayground } from './utils/playground-manager';
 
 export const activate = (context: vscode.ExtensionContext) => {
-    console.info('Void extension is now active');
+    console.info('Void: extension is now active');
 
     const runInCurrentCommand = vscode.commands.registerCommand('void.runInCurrent', () => runInCurrent(context));
     const createNewCommand = vscode.commands.registerCommand('void.createNew', () => createNew(context));
@@ -14,5 +14,7 @@ export const activate = (context: vscode.ExtensionContext) => {
 }
 
 export const deactivate = () => {
+    console.info('Void: Disposing playground...');
     disposePlayground();
+    console.info('Void: Disposed playground');
 }
