@@ -26,17 +26,6 @@ export class Playground {
         });
     }
 
-
-    public attach = async (doc: vscode.TextDocument) => {
-        this._triggerRun(doc);
-
-        vscode.workspace.onDidChangeTextDocument(e => {
-            if (e.document === doc) {
-                this._triggerRun(doc);
-            }
-        });
-    }
-
     private _triggerRun = (doc: vscode.TextDocument) => {
         const { debounce } = getConfig();
 
@@ -140,6 +129,16 @@ export class Playground {
         });
 
         editor.setDecorations(this._decorationType, decorations);
+    }
+
+        public attach = async (doc: vscode.TextDocument) => {
+        this._triggerRun(doc);
+
+        vscode.workspace.onDidChangeTextDocument(e => {
+            if (e.document === doc) {
+                this._triggerRun(doc);
+            }
+        });
     }
     
     public dispose = () => {
