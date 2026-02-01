@@ -8,6 +8,7 @@ import { bundleFile, runFile } from './utils/playground';
 import { truncateText } from './utils/truncate-text';
 import { LOG_WRAPPER_CODE, LOG_WRAPPER_LINES } from './constants/playground';
 import { Config } from './interfaces/config';
+import { parseLogOutput, formatForInline } from './utils/log-parser';
 
 export class Playground {
     private readonly _outputChannel = vscode.window.createOutputChannel("Void");
@@ -15,7 +16,6 @@ export class Playground {
     private readonly _configService = new ConfigService();
     private readonly _textDocument$ = new Subject<vscode.TextDocument>();
     private readonly _destroy$ = new Subject<void>();
-
     constructor() {
         this._updateDecorationType(this._configService.currentConfig);
 
@@ -94,74 +94,15 @@ export class Playground {
             this._outputChannel.appendLine(`Error: ${err.message}`);
         }
     }
-
     private _parseOutput = (output: string, editor: vscode.TextEditor, lineOffset: number) => {
-        const lines = output.split('\n');
         const decorations: vscode.DecorationOptions[] = [];
-        const lineMap = new Map<number, string[]>();
-
-        let currentLine: number | null = null;
-        let currentOutput: string[] = [];
-
-        for (const line of lines) {
-            // Check for prefix
-            if (line.startsWith('__VOID__|')) {
-                // If we have accumulated output for a previous line, save it
-                if (currentLine !== null && currentOutput.length > 0) {
-                    if (!lineMap.has(currentLine)) {
-                        lineMap.set(currentLine, []);
-                    }
-                    lineMap.get(currentLine)?.push(currentOutput.join('\n'));
-                }
-
-                // Start a new entry
-                currentOutput = [];
-                currentLine = null;
-
-                const secondPipeIndex = line.indexOf('|', 9);
-                if (secondPipeIndex === -1) continue;
-
-                const stackTracePart = line.substring(9, secondPipeIndex);
-                let argsPart = line.substring(secondPipeIndex + 1);
-                if (argsPart.startsWith(' ')) argsPart = argsPart.substring(1);
-
-                const match = /\.void\.ts:(\d+)/.exec(stackTracePart);
-                if (match) {
-                    let lineNo = parseInt(match[1], 10);
-                    lineNo = lineNo - lineOffset;
-                    const editorLine = lineNo - 1;
-
-                    if (editorLine >= 0) {
-                        currentLine = editorLine;
-                        currentOutput.push(argsPart);
-                    }
-                }
-            } else if (currentLine !== null) {
-                // Continuation of the previous log
-                currentOutput.push(line);
-            }
-        }
-
-        // Push successfully processed last iteration
-        if (currentLine !== null && currentOutput.length > 0) {
-            if (!lineMap.has(currentLine)) {
-                lineMap.set(currentLine, []);
-            }
-            lineMap.get(currentLine)?.push(currentOutput.join('\n'));
-        }
-
+        const lineMap = parseLogOutput(output, lineOffset);
         const { truncateLength } = this._configService.currentConfig;
 
         lineMap.forEach((texts, line) => {
             const fullText = texts.join('\n');
-
-            // For inline representation: replace newlines with spaces and condense spaces
-            const inlineTexts = texts.map(text =>
-                text.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim()
-            );
-
-            const combinedInline = inlineTexts.join(', ');
-            const truncatedText = truncateText(combinedInline, truncateLength);
+            const inlineText = formatForInline(texts);
+            const truncatedText = truncateText(inlineText, truncateLength);
 
             const hoverMessage = new vscode.MarkdownString();
             hoverMessage.appendCodeblock(fullText, 'typescript');
