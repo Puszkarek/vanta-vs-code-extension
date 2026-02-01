@@ -11,7 +11,7 @@ import { Config } from './interfaces/config';
 import { parseLogOutput, formatForInline } from './utils/log-parser';
 
 export class Playground {
-    private readonly _outputChannel = vscode.window.createOutputChannel("Void");
+    private readonly _outputChannel = vscode.window.createOutputChannel("Vanta");
     private _decorationType!: vscode.TextEditorDecorationType;
     private readonly _configService = new ConfigService();
     private readonly _textDocument$ = new Subject<vscode.TextDocument>();
@@ -75,8 +75,8 @@ export class Playground {
 
         const { tsconfigPath } = this._configService.currentConfig;
         
-        const tempTsFile = path.join(rootPath, '.void.ts');
-        const tempJsFile = path.join(rootPath, '.void.js');
+        const tempTsFile = path.join(rootPath, '.vanta.ts');
+        const tempJsFile = path.join(rootPath, '.vanta.js');
         const originalCode = textDocument.getText();
 
         const codeToRun = LOG_WRAPPER_CODE + originalCode;

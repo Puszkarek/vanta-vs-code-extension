@@ -15,7 +15,7 @@ export const createNew = async (context: vscode.ExtensionContext) => {
         } catch {
             const edit = new vscode.WorkspaceEdit();
             edit.createFile(filePath, { ignoreIfExists: true });
-            edit.insert(filePath, new vscode.Position(0, 0), '// Void Playground\n\nconst x = 10;\nconsole.log(x);\n');
+            edit.insert(filePath, new vscode.Position(0, 0), '// Vanta Playground\n\nconst x = 10;\nconsole.log(x);\n');
             await vscode.workspace.applyEdit(edit);
             const doc = await vscode.workspace.openTextDocument(filePath);
             await doc.save();
@@ -25,6 +25,6 @@ export const createNew = async (context: vscode.ExtensionContext) => {
         await vscode.window.showTextDocument(doc);
         playground.attach(doc);
     } else {
-        vscode.window.showErrorMessage('Open a workspace to summon the Void.');
+        vscode.window.showErrorMessage('Open a workspace to create a Singularity.');
     }
 };

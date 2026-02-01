@@ -1,8 +1,8 @@
-# Void
+# Vanta
 
-**Void** is a TypeScript playground that lives inside your editor. It stares back at you with realtime execution results.
+**Vanta** (from Vantablack) is a TypeScript playground that lives inside your editor. It stares back at you with realtime execution results.
 
-Unlike other playgrounds that require complex setup or external windows, Void runs right where you are. It supports your local environment, meaning your `node_modules` and `tsconfig.json` work out of the box.
+Unlike other playgrounds that require complex setup or external windows, Vanta runs right where you are. It supports your local environment, meaning your `node_modules` and `tsconfig.json` work out of the box.
 
 ## Features
 
@@ -13,20 +13,19 @@ Unlike other playgrounds that require complex setup or external windows, Void ru
 
 ## Commands
 
-- **Void: Enter the Void (Current File)** (`void.runInCurrent`)
-  - Attaches the playground to your currently active TypeScript/JavaScript file.
-  - Useful for quick tests in an existing file.
+- **Vanta: Absorb (Run in Current File)** (`vanta.runInCurrent`)
+  - Absorbs the current file into the Vanta runtime.
 
-- **Void: Summon Fresh Void (New File)** (`void.createNew`)
-  - Creates a new `playground.ts` file in your workspace root and attaches the playground.
-  - Perfect for scratchpad testing.
+- **Vanta: Singularity (Create New File)** (`vanta.createNew`)
+  - Opens a new event horizon (`playground.ts`) for testing.
+
 
 ## Configuration
 
-You can customize the Void in your VS Code settings:
+You can customize Vanta in your VS Code settings:
 
-- `void.debounce`: Delay in milliseconds before running the playground after typing (default: `300`).
-- `void.tsconfigPath`: Explicit path to your `tsconfig.json`. If left empty, Void tries to find it automatically.
+- `vanta.debounce`: Delay in milliseconds before running the playground after typing (default: `300`).
+- `vanta.tsconfigPath`: Explicit path to your `tsconfig.json`. If left empty, Vanta tries to find it automatically.
 
 ## Requirements
 

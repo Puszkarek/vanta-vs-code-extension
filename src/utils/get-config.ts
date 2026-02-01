@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { Config } from "../interfaces/config";
 
 export const getConfig = (): Config => {
-  const config = vscode.workspace.getConfiguration("void");
+  const config = vscode.workspace.getConfiguration("vanta");
   const debounce = config.get<number>("debounce") ?? 300;
   const tsconfigPath = config.get<string | null>('tsconfigPath') ?? null;
   const truncateLength = config.get<number>('truncateLength') ?? 40;

@@ -8,8 +8,8 @@ console.log = (...args) => {
         const stackLines = e.stack.split('\\n');
         // Index 2 is the caller
         const callerLine = stackLines[2] || '';
-        // format: __VOID__|caller_stack|output...
-        _originalLog('__VOID__|' + callerLine + '|', ...args);
+        // format: __VANTA__|caller_stack|output...
+        _originalLog('__VANTA__|' + callerLine + '|', ...args);
     }
 };
 `;

@@ -8,6 +8,6 @@ export const runInCurrent = (context: vscode.ExtensionContext) => {
     if (editor && (editor.document.languageId === 'typescript' || editor.document.languageId === 'javascript')) {
             playground.attach(editor.document);
     } else {
-            vscode.window.showErrorMessage('No active TypeScript/JavaScript file. Use "Summon Fresh Void" to create one.');
+            vscode.window.showErrorMessage('No active TypeScript/JavaScript file. Use "Vanta: Singularity" to create one.');
     }
 };

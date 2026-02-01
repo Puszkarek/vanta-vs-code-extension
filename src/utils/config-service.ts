@@ -10,7 +10,7 @@ export class ConfigService {
 
     constructor() {
         this._disposable = vscode.workspace.onDidChangeConfiguration(event => {
-            if (event.affectsConfiguration('void')) {
+            if (event.affectsConfiguration('vanta')) {
                 const newConfig = getConfig();
                 this._config$.next(newConfig);
             }

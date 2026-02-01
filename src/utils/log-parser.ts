@@ -8,7 +8,7 @@ export const parseLogOutput = (output: string, lineOffset: number): Map<number, 
 
     for (const line of lines) {
         // Check for prefix
-        if (line.startsWith('__VOID__|')) {
+        if (line.startsWith('__VANTA__|')) {
             // If we have accumulated output for a previous line, save it
             if (currentLine !== null && currentOutput.length > 0) {
                 if (!lineMap.has(currentLine)) {
@@ -28,7 +28,7 @@ export const parseLogOutput = (output: string, lineOffset: number): Map<number, 
             let argsPart = line.substring(secondPipeIndex + 1);
             if (argsPart.startsWith(' ')) {argsPart = argsPart.substring(1);}
 
-            const match = /\.void\.ts:(\d+)/.exec(stackTracePart);
+            const match = /\.vanta\.ts:(\d+)/.exec(stackTracePart);
             if (match) {
                 let lineNo = parseInt(match[1], 10);
                 lineNo = lineNo - lineOffset;
