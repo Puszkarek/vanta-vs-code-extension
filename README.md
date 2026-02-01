@@ -1,6 +1,6 @@
-# Vanta
+# Vanta.js
 
-**Vanta** (from Vantablack) is a TypeScript playground that lives inside your editor. It stares back at you with realtime execution results.
+**Vanta.js** (from Vantablack) is a TypeScript playground that lives inside your editor. It stares back at you with realtime execution results.
 
 Unlike other playgrounds that require complex setup or external windows, Vanta runs right where you are. It supports your local environment, meaning your `node_modules` and `tsconfig.json` work out of the box.
 

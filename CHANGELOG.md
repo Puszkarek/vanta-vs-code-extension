@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## [0.0.2] - 2026-02-01
+
+### Changed
+- **Name**: Changed the name of the extension to "Vanta.js".
+- **Icon**: Changed the icon of the extension to a more modern design.
+
 ## [0.0.1] - 2026-02-01
 
 ### Released
