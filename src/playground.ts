@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { getConfig } from './utils/get-config';
-import { bundleFile, runFile } from './utils/playground-utils';
+import { bundleFile, runFile } from './utils/playground';
 import { truncateText } from './utils/truncate-text';
 import { LOG_WRAPPER_CODE, LOG_WRAPPER_LINES } from './constants/playground-constants';
 
