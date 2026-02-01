@@ -12,13 +12,13 @@ const DECORATION_STYLES = {
 };
 
 export class Playground {
-    private debounceTimer: NodeJS.Timeout | undefined;
-    private outputChannel: vscode.OutputChannel;
-    private decorationType: vscode.TextEditorDecorationType;
+    private _debounceTimer: NodeJS.Timeout | undefined;
+    private _outputChannel: vscode.OutputChannel;
+    private _decorationType: vscode.TextEditorDecorationType;
 
     constructor() {
-        this.outputChannel = vscode.window.createOutputChannel("Void");
-        this.decorationType = vscode.window.createTextEditorDecorationType({
+        this._outputChannel = vscode.window.createOutputChannel("Void");
+        this._decorationType = vscode.window.createTextEditorDecorationType({
             after: {
                 margin: '0 0 0 1em',
                 ...DECORATION_STYLES
@@ -27,29 +27,29 @@ export class Playground {
     }
 
 
-    public async attach(doc: vscode.TextDocument) {
-        this.triggerRun(doc);
+    public attach = async (doc: vscode.TextDocument) => {
+        this._triggerRun(doc);
 
         vscode.workspace.onDidChangeTextDocument(e => {
             if (e.document === doc) {
-                this.triggerRun(doc);
+                this._triggerRun(doc);
             }
         });
     }
 
-    private triggerRun(doc: vscode.TextDocument) {
+    private _triggerRun = (doc: vscode.TextDocument) => {
         const { debounce } = getConfig();
 
-        if (this.debounceTimer) {
-            clearTimeout(this.debounceTimer);
+        if (this._debounceTimer) {
+            clearTimeout(this._debounceTimer);
         }
 
-        this.debounceTimer = setTimeout(() => {
-            this.run(doc);
+        this._debounceTimer = setTimeout(() => {
+            this._run(doc);
         }, debounce);
     }
 
-    private async run(doc: vscode.TextDocument) {
+    private _run = async (doc: vscode.TextDocument) => {
         const editor = vscode.window.activeTextEditor;
         if (!editor || editor.document !== doc) return;
 
@@ -72,14 +72,14 @@ export class Playground {
 
             const output = await runFile(tempJsFile, rootPath);
             
-            this.parseOutput(output, editor, LOG_WRAPPER_LINES);
+            this._parseOutput(output, editor, LOG_WRAPPER_LINES);
 
         } catch (err: any) {
-            this.outputChannel.appendLine(`Error: ${err.message}`);
+            this._outputChannel.appendLine(`Error: ${err.message}`);
         }
     }
 
-    private parseOutput(output: string, editor: vscode.TextEditor, lineOffset: number) {
+    private _parseOutput = (output: string, editor: vscode.TextEditor, lineOffset: number) => {
         const lines = output.split('\n');
         const decorations: vscode.DecorationOptions[] = [];
         const lineMap = new Map<number, string[]>();
@@ -139,12 +139,12 @@ export class Playground {
              });
         });
 
-        editor.setDecorations(this.decorationType, decorations);
+        editor.setDecorations(this._decorationType, decorations);
     }
     
-    public dispose() {
-        this.decorationType.dispose();
-        this.outputChannel.dispose();
-        if (this.debounceTimer) clearTimeout(this.debounceTimer);
+    public dispose = () => {
+        this._decorationType.dispose();
+        this._outputChannel.dispose();
+        if (this._debounceTimer) clearTimeout(this._debounceTimer);
     }
 }

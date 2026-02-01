@@ -3,7 +3,7 @@ import { Playground } from './playground';
 
 let playground: Playground | undefined;
 
-export function activate(context: vscode.ExtensionContext) {
+export const activate = (context: vscode.ExtensionContext) => {
     console.log('Void extension is now active');
 
     const runInCurrent = vscode.commands.registerCommand('void.runInCurrent', () => {
@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(createNew);
 }
 
-export function deactivate() {
+export const deactivate = () => {
     if (playground) {
         playground.dispose();
     }

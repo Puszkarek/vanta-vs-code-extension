@@ -1,10 +1,10 @@
 import * as cp from 'child_process';
 
-export async function bundleFile(
+export const bundleFile = async (
     entryPoint: string, 
     outfile: string, 
     tsconfigPath?: string
-): Promise<void> {
+): Promise<void> => {
     const esbuild = require('esbuild');
     const buildOptions: any = {
         entryPoints: [entryPoint],
@@ -23,7 +23,7 @@ export async function bundleFile(
     await esbuild.build(buildOptions);
 }
 
-export function runFile(filePath: string, cwd: string): Promise<string> {
+export const runFile = (filePath: string, cwd: string): Promise<string> => {
     return new Promise((resolve, reject) => {
         const child = cp.spawn('node', ['--enable-source-maps', filePath], {
             cwd: cwd
