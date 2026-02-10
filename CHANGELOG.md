@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.4] - 2026-02-11
+
+### Added
+
+- **Output Channel**: Added a dedicated "Vanta" output channel to view clean execution logs.
+- **Line Numbers**: Logs in the output channel now show the corresponding line number from the source file.
+
+### Fixed
+
+- **Log Parsing**: Fixed an issue where inline decorations were not showing up due to incorrect log parsing.
+- **Decoration Style**: Removed the arrow prefix from inline decorations for a cleaner look.
+
 ## [0.0.3] - 2026-02-11
 
 ### Changed
