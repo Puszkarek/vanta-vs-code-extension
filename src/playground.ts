@@ -103,6 +103,28 @@ export class Playground {
 
       const output = await runFile(tempJsFile, rootPath);
 
+      this._outputChannel.clear();
+      // Only show the raw output in the channel, possibly with some formatting if desired.
+      // The user sees the decorations in the editor, so maybe they just want the raw output too.
+      // But the raw output contains `__VANTA__|...` which is ugly.
+      // Let's strip the Vanta prefix for the output channel so it looks clean.
+      const cleanOutput = output
+        .split("\n")
+        .map((line) => {
+          if (line.startsWith("__VANTA__|")) {
+            const secondPipe = line.indexOf("|", 10);
+            if (secondPipe !== -1) {
+              // return the content after the second pipe
+              return line.substring(secondPipe + 1);
+            }
+          }
+          return line;
+        })
+        .join("\n");
+
+      this._outputChannel.append(cleanOutput);
+      this._outputChannel.show(true);
+
       this._parseOutput(output, editor, LOG_WRAPPER_LINES);
     } catch (err: any) {
       this._outputChannel.appendLine(`Error: ${err.message}`);
@@ -130,7 +152,7 @@ export class Playground {
         hoverMessage: hoverMessage,
         renderOptions: {
           after: {
-            contentText: `  => ${truncatedText}`,
+            contentText: truncatedText,
           },
         },
       });

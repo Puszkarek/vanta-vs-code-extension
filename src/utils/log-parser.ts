@@ -23,7 +23,7 @@ export const parseLogOutput = (
       currentOutput = [];
       currentLine = null;
 
-      const secondPipeIndex = line.indexOf("|", 9);
+      const secondPipeIndex = line.indexOf("|", 10);
       if (secondPipeIndex === -1) {
         continue;
       }

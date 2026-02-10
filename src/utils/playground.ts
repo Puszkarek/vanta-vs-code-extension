@@ -16,28 +16,48 @@ export const bundleFile = async (
     logLevel: "silent",
   };
 
+  console.log("[Vanta] Bundling file:", entryPoint, "to", outfile);
+
   if (tsconfigPath) {
+    console.log("[Vanta] Using tsconfig:", tsconfigPath);
     buildOptions.tsconfig = tsconfigPath;
   }
 
-  await esbuild.build(buildOptions);
+  try {
+    await esbuild.build(buildOptions);
+    console.log("[Vanta] Bundle successful");
+  } catch (error) {
+    console.error("[Vanta] Bundle failed:", error);
+    throw error;
+  }
 };
 
 export const runFile = (filePath: string, cwd: string): Promise<string> => {
   return new Promise((resolve, reject) => {
+    console.log("[Vanta] Running file:", filePath);
     const child = cp.spawn("node", ["--enable-source-maps", filePath], {
       cwd: cwd,
     });
 
     let output = "";
-    child.stdout.on("data", (d) => (output += d.toString()));
-    child.stderr.on("data", (d) => (output += d.toString()));
+    child.stdout.on("data", (d) => {
+      const str = d.toString();
+      console.log("[Vanta] stdout:", str);
+      output += str;
+    });
+    child.stderr.on("data", (d) => {
+      const str = d.toString();
+      console.log("[Vanta] stderr:", str);
+      output += str;
+    });
 
-    child.on("close", () => {
+    child.on("close", (code) => {
+      console.log("[Vanta] Process exited with code:", code);
       resolve(output);
     });
 
     child.on("error", (err) => {
+      console.error("[Vanta] Process error:", err);
       reject(err);
     });
   });
